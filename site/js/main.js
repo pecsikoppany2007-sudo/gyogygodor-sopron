@@ -405,7 +405,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=5';
+    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=6';
     Promise.all([im.decode ? im.decode().catch(function () {}) : null, dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; })]).then(function () {
       if (!im.naturalWidth || !dep.naturalWidth) return;
       tex(0, im); tex(1, dep);
@@ -698,7 +698,7 @@
     // étlap: az ételek nevére állva a tányér képe az egér mellett úszik
     if (dish) $$('[data-dish]').forEach(function (li) {
       li.addEventListener('pointerenter', function (e) {
-        dishImg.src = 'img/etel-' + li.getAttribute('data-dish') + '.webp?v=5';
+        dishImg.src = 'img/etel-' + li.getAttribute('data-dish') + '.webp?v=6';
         if (!DS.on) { DS.x = DS.tx = e.clientX + 70; DS.y = DS.ty = e.clientY - 240; }
         DS.on = true; dish.classList.add('on'); loop();
       });

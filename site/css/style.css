@@ -429,7 +429,7 @@ cite { display: block; font-style: normal; font-size: 14px; color: var(--brass);
 .cur-on, .cur-on a, .cur-on button { cursor: none; }
 
 /* filmszemcse az egész lapon (csak valódi grafikus chippel) */
-.is-grain body::after { content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; background: url(../img/szemcse.png?v=5); opacity: .06; }
+.is-grain body::after { content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; background: url(../img/szemcse.png?v=6); opacity: .06; }
 
 /* lábléc: a lap felhúzódik róla */
 @media (min-height: 740px) and (min-width: 761px) {

@@ -3,7 +3,7 @@
 import sys
 from PIL import Image, ImageOps, ImageEnhance, ImageFilter
 R = '/home/claude/assets/raw/'
-O = '/home/claude/gyogygodor4/site/img/'
+O = '/home/claude/gyogygodor3/site/img/'
 
 def load(f): return ImageOps.exif_transpose(Image.open(R + f)).convert('RGB')
 

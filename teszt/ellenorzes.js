@@ -27,7 +27,7 @@ async function page(b, w, h, mob, extra) {
     const r = await p.evaluate(() => {
       const W = document.documentElement.clientWidth, over = [];
       document.querySelectorAll('body *').forEach(e => {
-        if (e.closest('svg') || e.closest('.mnav') || e.closest('[hidden]') || e.closest('.le__win') || e.matches('.skip') || e.matches('.ph > img')) return;
+        if (e.closest('svg') || e.closest('.marq') || e.closest('.hero__media') || e.closest('.mnav') || e.closest('[hidden]') || e.matches('.skip') || e.matches('.ph > img')) return;
         const cs = getComputedStyle(e); if (cs.visibility === 'hidden' || cs.display === 'none' || cs.position === 'fixed') return;
         const r = e.getBoundingClientRect(); if (!r.width) return;
         if (r.right > W + 1 || r.left < -1) over.push((e.className || e.tagName) + ' ' + Math.round(r.left) + '..' + Math.round(r.right));
@@ -118,7 +118,7 @@ async function page(b, w, h, mob, extra) {
   {
     const p = await page(b, 1440, 900, 0, { reducedMotion: 'reduce' });
     await p.goto(url + '?lang=hu', { waitUntil: 'load' }); await sleep(1500);
-    const r = await p.evaluate(() => ({ cls: document.documentElement.className, h1: getComputedStyle(document.querySelector('.le__h1')).opacity}));
+    const r = await p.evaluate(() => ({ cls: document.documentElement.className, h1: getComputedStyle(document.querySelector('.hero__h1')).opacity}));
     console.log('csökkentett mozgás:', JSON.stringify(r));
     if (!/no-intro/.test(r.cls) || r.h1 !== '1') bad('csökkentett mozgás: ' + JSON.stringify(r));
     await p.screenshot({ path: `${out}/reduced.jpg`, quality: 60 });
@@ -131,7 +131,7 @@ async function page(b, w, h, mob, extra) {
     const b2 = await chromium.launch({ args: ['--disable-gpu', '--disable-webgl', '--disable-3d-apis'] });
     const p = await page(b2, 1440, 900, 0);
     await p.goto(url + '?lang=hu', { waitUntil: 'load' }); await sleep(5000);
-    const r = await p.evaluate(() => ({ cls: document.documentElement.className, h1: getComputedStyle(document.querySelector('.le__h1')).opacity }));
+    const r = await p.evaluate(() => ({ cls: document.documentElement.className, h1: getComputedStyle(document.querySelector('.hero__h1')).opacity }));
     console.log('WebGL nélkül:', JSON.stringify(r), p.errs.join('; '));
     if (r.h1 !== '1' || p.errs.length) bad('WebGL nélkül: ' + JSON.stringify(r) + ' ' + p.errs.join('; '));
     await p.screenshot({ path: `${out}/nogl.jpg`, quality: 60 });

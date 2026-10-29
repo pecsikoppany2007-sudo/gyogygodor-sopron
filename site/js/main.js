@@ -1,7 +1,6 @@
-/* Gyógygödör Borozó, bemutató oldal, v4
-   Fent a Fő tér, görgetésre a boltíves ablakon át le a pincébe; lent a három terem 3D folyosóként, a szakaszok
-   görgetésre billennek. Natív görgetés. Görgetéshez kötött mozgás csak egérrel; érintőn minden időzített, egyszer fut.
-   A 3D billenés és a folyosó csak valódi grafikus chippel megy (szoftveres rajzolásnál a régi, egyszerű változat). */
+/* Gyógygödör Borozó, bemutató oldal, v5
+   Sötét pince, egyetlen vékony sárgaréz vonal (a v3 kinézete), a v4 mozgásaival: billenő szakaszok, 3D folyosó a termekhez,
+   asztalról felemelkedő tányérok. Csak transform és opacity mozog; görgetéshez kötve csak egérrel és valódi grafikus chippel, érintőn időzítve. Natív görgetés. */
 (function () {
   'use strict';
   var D = document, root = D.documentElement;
@@ -59,7 +58,7 @@
     'w1': 'Soproner Cuvée', 'w1d': 'weiß, halbsüß', 'w2': 'Grüner Veltliner', 'w2d': 'weiß, trocken', 'w3': 'Welschriesling', 'w3d': 'weiß, trocken',
     'w4': 'Blaufränkisch', 'w4d': 'rot, trocken', 'w5': 'Rosé', 'w5d': 'rosé, trocken', 'w6': 'Zweigelt', 'w6d': 'rot, halbsüß', 'w7': 'Cabernet Sauvignon', 'w7d': 'rot, trocken',
     'borok.unit': 'Forint pro Liter',
-    'borok.more': 'Auch in der Flasche, zum Beispiel Prémium Furmint 2018, Kékfrankos und Prémium Cabernet Sauvignon. Bier gibt es von Soproni und Óvatos Duhaj, Pálinka von Karikás und Palotás.',
+    'borok.more': 'Auch in der Flasche, zum Beispiel Prémium Furmint 2018 und Prémium Cabernet Sauvignon. Bier gibt es von Soproni und Óvatos Duhaj, Pálinka von Karikás und Palotás.',
     'borok.q': '„Ihr Wein kommt seit Jahrzehnten aus den besten Soproner Kellern, und es sind zwar keine »großen Weine«, aber gute.“',
     'borok.qs': 'Gast in einem Internetforum, zitiert auf gyogygodor.hu (übersetzt)',
     'kepek.t': 'Bilder',
@@ -126,7 +125,7 @@
     'w1': 'Sopron blend', 'w1d': 'medium-sweet white', 'w2': 'Grüner Veltliner', 'w2d': 'dry white', 'w3': 'Olaszrizling', 'w3d': 'dry white',
     'w4': 'Kékfrankos', 'w4d': 'dry red', 'w5': 'Rosé', 'w5d': 'dry rosé', 'w6': 'Zweigelt', 'w6d': 'medium-sweet red', 'w7': 'Cabernet Sauvignon', 'w7d': 'dry red',
     'borok.unit': 'Forints per litre',
-    'borok.more': 'There are bottles too, such as Prémium Furmint 2018, Kékfrankos and Prémium Cabernet Sauvignon. Beer from Soproni and Óvatos Duhaj, pálinka from Karikás and Palotás.',
+    'borok.more': 'There are bottles too, such as Prémium Furmint 2018 and Prémium Cabernet Sauvignon. Beer from Soproni and Óvatos Duhaj, pálinka from Karikás and Palotás.',
     'borok.q': '“For decades their wine has come from the best cellars in Sopron, and while they are not »great wines«, they are good.”',
     'borok.qs': 'A guest on an online forum, quoted on gyogygodor.hu (translated)',
     'kepek.t': 'Photos',
@@ -161,8 +160,7 @@
     'e1.alt': 'Bohnengulasch in der Tasse', 'e2.alt': 'Rindergulasch in Rotwein mit Nockerln',
     'e3.alt': 'Riesenschnitzel mit Käse und Sauerrahm', 'e3.cap': 'Riesenschnitzel',
     'e4.alt': 'Schokoladensoufflé mit Schlagobers und Erdbeersoße', 'e4.cap': 'Schokoladensoufflé',
-    'b1.alt': 'Eine Flasche Furmint', 'b2.alt': 'Eine Flasche Kékfrankos', 'b3.alt': 'Eine Flasche Cabernet Sauvignon',
-    'le.c1': 'Das Kossow-Haus am Hauptplatz', 'le.c2': 'Der Eingang unter dem Schild', 'le.c3': 'Die Treppe hinunter in den Keller',
+    'borok.alt': 'Treppe in den Keller mit schmiedeeisernem Geländer, unten Weinfässer',
     'k5.alt': 'Das beleuchtete Schild am Abend, vor dem Eingang Blumenkästen', 'k5.cap': 'Abends am Hauptplatz',
     'k6.alt': 'Der Hauptplatz von Sopron mit dem Feuerturm und der Dreifaltigkeitssäule', 'k6.cap': 'Der Hauptplatz mit dem Feuerturm',
     'tars.alt': 'Eine Gesellschaft beim Abendessen unter einem Gewölbebogen',
@@ -175,8 +173,7 @@
     'e1.alt': 'Bean goulash soup in a cup', 'e2.alt': 'Beef stew in red wine with galuska dumplings',
     'e3.alt': 'Giant breaded pork chop with cheese and sour cream', 'e3.cap': 'Giant breaded pork chop',
     'e4.alt': 'Chocolate soufflé with whipped cream and strawberry sauce', 'e4.cap': 'Chocolate soufflé',
-    'b1.alt': 'A bottle of Furmint', 'b2.alt': 'A bottle of Kékfrankos', 'b3.alt': 'A bottle of Cabernet Sauvignon',
-    'le.c1': 'The Kossow House on the main square', 'le.c2': 'The entrance under the sign', 'le.c3': 'The stairs down to the cellar',
+    'borok.alt': 'Stairs down into the cellar with a wrought-iron railing, wine barrels below',
     'k5.alt': 'The lit sign in the evening, flower boxes by the entrance', 'k5.cap': 'Evening on the main square',
     'k6.alt': 'Sopron’s main square with the Firewatch Tower and the Holy Trinity Column', 'k6.cap': 'The main square and the Firewatch Tower',
     'tars.alt': 'A group having dinner under a vaulted arch',
@@ -241,6 +238,7 @@
   setLang(pickLang());
   setInterval(hours, 60000);
 
+
   /* ---------- Képességek ---------- */
   var gpu = (function () {
     try {
@@ -254,23 +252,28 @@
   })();
   var touch = !canHover;
   var rich = canHover && !reduced && gpu === 'hw';
+  if (gpu === 'hw') root.classList.add('is-grain');
   function seg(p, a, b) { return clamp((p - a) / (b - a), 0, 1); }
   function eio(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-  function eo3(t) { return 1 - Math.pow(1 - t, 3); }
   function px(v) { return v.toFixed(1) + 'px'; }
   // oldalbeli helyzet a transzformációk nélkül (egy éppen billenő szakaszban se mérjünk ferdén)
   function absTop(el) { var y = 0; while (el) { y += el.offsetTop; el = el.offsetParent; } return y; }
   var vw = innerWidth, vh = innerHeight;
 
   /* ---------- Fejléc, menü, hívósáv ---------- */
-  var hdr = $('#hdr'), mcall = $('.mcall'), burger = $('.hdr__burger'), mnav = $('#mnav');
-  var le = $('.le'), stage = $('.le__stage');
+  var hdr = $('#hdr'), hero = $('.hero'), heroIn = $('.hero__in'), mcall = $('.mcall'), burger = $('.hdr__burger'), mnav = $('#mnav');
+  var heroVisible = true;
+  function chrome() {
+    var past = scrollY > hero.offsetHeight - 80;
+    hdr.classList.toggle('is-solid', past || !mnav.hidden);
+    mcall.classList.toggle('show', past);
+  }
   function setMenu(open) {
     burger.setAttribute('aria-expanded', String(open));
     if (open) {
       mnav.hidden = false; root.style.overflow = 'hidden';
       requestAnimationFrame(function () { requestAnimationFrame(function () { mnav.classList.add('is-open'); }); });
-      hdr.classList.add('is-solid'); hdr.classList.remove('hdr--ink');
+      hdr.classList.add('is-solid');
     } else {
       mnav.classList.remove('is-open'); root.style.overflow = '';
       setTimeout(function () { if (!mnav.classList.contains('is-open')) mnav.hidden = true; }, 500);
@@ -280,7 +283,7 @@
   burger.addEventListener('click', function () { setMenu(burger.getAttribute('aria-expanded') !== 'true'); });
   D.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !mnav.hidden) setMenu(false); });
   $$('[data-lang]').forEach(function (b) {
-    b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
+    b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); splitAll(); measureAll(); });
   });
 
   /* ---------- Horgonyok: a címekre érkeznek ---------- */
@@ -288,7 +291,7 @@
     var s = D.getElementById(id); if (!s) return null;
     if (id === 'top') return 0;
     if (id === 'etlap') return absTop($('.plates', s)) - 110;
-    if (id === 'termek' && s.classList.contains('is-3d')) return absTop(s);
+    if ((id === 'termek' && s.classList.contains('is-3d')) || (id === 'kepek' && s.classList.contains('is-h'))) return absTop(s);
     return absTop($('h2', s) || s) - (innerWidth < 761 ? 104 : 136);
   }
   $$('a[href^="#"]').forEach(function (a) {
@@ -302,6 +305,44 @@
     });
   });
 
+  /* ---------- Címek soronként csúsznak elő a maszk alól ---------- */
+  var slEls = $$('main h2, .lede');
+  function split(el) {
+    var txt = el.textContent;
+    el.setAttribute('aria-label', txt);
+    el.textContent = '';
+    var words = txt.split(/([ \n\t]+)/), spans = [];
+    words.forEach(function (w) {
+      if (!w) return;
+      if (/^[ \n\t]+$/.test(w)) { el.appendChild(D.createTextNode(w)); return; }
+      var s = D.createElement('span'); s.className = 'w'; s.textContent = w; el.appendChild(s); spans.push(s);
+    });
+    // sorokra bontás a szavak függőleges helyzete alapján
+    var lines = [], top = null;
+    spans.forEach(function (s) {
+      var t = s.offsetTop;
+      if (top === null || Math.abs(t - top) > 4) { lines.push([]); top = t; }
+      lines[lines.length - 1].push(s);
+    });
+    el.textContent = '';
+    lines.forEach(function (ln, i) {
+      var o = D.createElement('span'); o.className = 'ln'; o.setAttribute('aria-hidden', 'true');
+      var inner = D.createElement('span'); inner.className = 'ln__i'; inner.style.setProperty('--i', String(i));
+      inner.textContent = ln.map(function (s) { return s.textContent; }).join(' ');
+      o.appendChild(inner); el.appendChild(o);
+      if (i < lines.length - 1) el.appendChild(D.createTextNode(' '));
+    });
+    el.classList.add('sl');
+  }
+  function splitAll() {
+    if (reduced) return;
+    slEls.forEach(function (el) {
+      // a nyelvváltás a sima szöveget írja vissza; a felbontás mindig a friss szövegből indul
+      if (el.classList.contains('sl') && el.querySelector('.ln')) el.textContent = el.getAttribute('aria-label');
+      split(el);
+    });
+  }
+
   /* ---------- Három terem: 3D folyosó (egérrel, grafikus chippel, széles képernyőn) ---------- */
   var termek = $('.termek'), rooms = $$('.room'), rcaps = $$('.rcap'), thead = $('.termek .head');
   var corridor = rich && termek && innerWidth >= 1100;
@@ -312,124 +353,170 @@
   }
 
   /* ---------- Megjelenés görgetésre (CSS transition), egyszerre érkezők lépcsőzve ---------- */
-  var rvEls = $$('.rv, .thread');
-  var io = null;
-  if ('IntersectionObserver' in window && root.classList.contains('js')) {
-    io = new IntersectionObserver(function (es) {
-      var k = 0;
-      es.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        var el = e.target;
-        if (!el.style.getPropertyValue('--d')) el.style.setProperty('--d', String(k++));
-        el.classList.add('in'); io.unobserve(el);
+  function reveals() {
+    var rvEls = $$('.rv, .thread, .sl');
+    if ('IntersectionObserver' in window && root.classList.contains('js')) {
+      var io = new IntersectionObserver(function (es) {
+        var k = 0;
+        es.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          var el = e.target;
+          if (!el.style.getPropertyValue('--d')) el.style.setProperty('--d', String(k++));
+          el.classList.add('in'); io.unobserve(el);
+        });
+      }, { rootMargin: '0px 0px -13% 0px' });
+      rvEls.forEach(function (el) {
+        // ami betöltéskor már a képernyő fölött van (középről újratöltés), az azonnal látszik
+        if (el.getBoundingClientRect().bottom < 0) { el.classList.add('in', 'now'); return; }
+        io.observe(el);
       });
-    }, { rootMargin: '0px 0px -13% 0px' });
-    rvEls.forEach(function (el) {
-      // ami betöltéskor már a képernyő fölött van (középről újratöltés), az azonnal látszik
-      if (el.getBoundingClientRect().bottom < 0) { el.classList.add('in', 'now'); return; }
-      io.observe(el);
+    } else rvEls.forEach(function (el) { el.classList.add('in'); });
+  }
+  /* ---------- Nyitókép: WebGL, mélységtérkép szerinti mozgás ---------- */
+  var VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
+  var FS = [
+    'precision highp float;varying vec2 v;',
+    'uniform sampler2D uI,uD;uniform vec2 uRes,uM;uniform float uAR,uPush,uOver;',
+    'const vec2 POS=vec2(.44,.5);const vec2 VP=vec2(.47,.44);',
+    'vec2 img(vec2 p){float sa=uRes.x/uRes.y;vec2 s=sa>uAR?vec2(1.,uAR/sa):vec2(sa/uAR,1.);',
+    ' vec2 o=(1.-s)*POS;vec2 c=o+.5*s;return c+(o+p*s-c)/uOver;}',
+    'void main(){vec2 p=v;',
+    ' for(int i=0;i<3;i++){float d=texture2D(uD,img(p)).r;float k=uPush*(.025+.13*d);',
+    '  p=VP+(v-VP)/(1.+k)+uM*(d-.42)*.024;}',
+    ' gl_FragColor=vec4(texture2D(uI,img(p)).rgb,1.);}'
+  ].join('\n');
+  var G = { ok: false, push: 0, pushT: 0, m: [0, 0], mT: [0, 0], scroll: 0, raf: 0, intro: null };
+  function glInit() {
+    var cv = $('.hero__gl'), im = $('.hero__img');
+    var gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+    if (!gl) return;
+    function sh(t, s) { var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
+    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
+    var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
+    gl.useProgram(pr);
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    var al = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
+    var U = {}; ['uI', 'uD', 'uRes', 'uM', 'uAR', 'uPush', 'uOver'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
+    function tex(unit, src) {
+      var t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
+    }
+    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=5';
+    Promise.all([im.decode ? im.decode().catch(function () {}) : null, dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; })]).then(function () {
+      if (!im.naturalWidth || !dep.naturalWidth) return;
+      tex(0, im); tex(1, dep);
+      gl.uniform1i(U.uI, 0); gl.uniform1i(U.uD, 1);
+      gl.uniform1f(U.uAR, im.naturalWidth / im.naturalHeight); gl.uniform1f(U.uOver, 1.06);
+      G.gl = gl; G.cv = cv; G.U = U; G.ok = true;
+      size(); draw(); hero.classList.add('gl-on'); kick();
+    }).catch(function () {});
+    cv.addEventListener('webglcontextlost', function (e) { e.preventDefault(); G.ok = false; hero.classList.remove('gl-on'); });
+  }
+  var lastW = 0, lastH = 0;
+  function size() {
+    if (!G.ok) return;
+    var w = G.cv.clientWidth, h = G.cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    lastW = w; lastH = h;
+    G.cv.width = Math.round(w * dpr); G.cv.height = Math.round(h * dpr);
+    G.gl.viewport(0, 0, G.cv.width, G.cv.height); G.gl.uniform2f(G.U.uRes, w, h);
+  }
+  function draw() {
+    var gl = G.gl, U = G.U;
+    gl.uniform1f(U.uPush, G.push + G.scroll); gl.uniform2f(U.uM, G.m[0], G.m[1]);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  // csak akkor rajzol, ha valami mozog; utána leáll
+  function frame(t) {
+    G.raf = 0;
+    if (!G.ok || !heroVisible) return;
+    var moving = false;
+    if (G.intro) {
+      var k = clamp((t - G.intro.t0) / G.intro.dur, 0, 1);
+      G.push = lerp(G.intro.from, G.intro.to, easeOut(k));
+      if (k < 1) moving = true; else G.intro = null;
+    }
+    for (var i = 0; i < 2; i++) {
+      var dm = G.mT[i] - G.m[i];
+      if (Math.abs(dm) > 0.0005) { G.m[i] += dm * 0.06; moving = true; } else G.m[i] = G.mT[i];
+    }
+    draw();
+    if (moving) kick();
+  }
+  function kick() { if (!G.raf && G.ok) G.raf = requestAnimationFrame(frame); }
+  function camPush(dur) { G.intro = { t0: performance.now(), dur: dur, from: G.push, to: 0.34 }; kick(); }
+  if (canHover) {
+    hero.addEventListener('pointermove', function (e) {
+      G.mT[0] = (e.clientX / innerWidth - .5) * 2; G.mT[1] = (e.clientY / innerHeight - .5) * 2; kick();
     });
-  } else rvEls.forEach(function (el) { el.classList.add('in'); });
+    hero.addEventListener('pointerleave', function () { G.mT[0] = G.mT[1] = 0; kick(); });
+  }
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { heroVisible = es[0].isIntersecting; hero.classList.toggle('off', !heroVisible); if (heroVisible) kick(); }).observe(hero);
+  window.addEventListener('resize', function () {
+    var w = innerWidth, h = innerHeight;
+    if (Math.abs(w - lastW) > 0 || Math.abs(h - lastH) > 160) { size(); kick(); }
+  });
 
-  /* ---------- Lejárat: krém lap, boltíves ablak, Kossow-ház, bejárat, lépcső, pince ---------- */
-  var leOn = !reduced && !!stage;
-  var win = $('.le__win'), L = $$('.le__l'), haz = $('.le__haz'), txt = $('.le__txt'), slot = $('.le__slot');
-  var frame = $('.le__frame'), key = $('.le__key'), cue = $('.le__cue'), ltop = $('.le__top');
-  var caps = $$('.le__cap span'), crest = $('.le .crest');
-  var cArch = $$('.crest__arch path', crest), cKey = $('.crest__key', crest), cWord = $$('.crest__word b', crest);
-  var cSub = $('.crest__sub', crest), cRule = $('.crest__rule', crest), cSince = $('.crest__since', crest);
-  var LE = { p: 0, t: 0, range: 1, W: 0, H: 0, s0: null, film: null, cur: '' };
-  if (leOn) { le.classList.add('le-on'); if (touch) le.classList.add('le-touch'); }
-  else { root.classList.add('le-static'); }
+  /* ---------- Nyitóanimáció ---------- */
+  var EX = 'cubic-bezier(.16,1,.3,1)', IO = 'cubic-bezier(.65,0,.35,1)';
+  function runIntro() {
+    var list = [];
+    function an(el, kf, o) { if (!el) return; var x = el.animate(kf, Object.assign({ fill: 'both' }, o)); list.push(x); }
+    var up = function (d) { return [{ opacity: 0, transform: 'translate3d(0,' + d + ',0)' }, { opacity: 1, transform: 'none' }]; };
+    an($('.hero__night'), [{ opacity: 1 }, { opacity: 0 }], { duration: 2300, delay: 80, easing: 'cubic-bezier(.45,0,.2,1)' });
+    $$('.crest__arch path').forEach(function (p, i) {
+      an(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1800, delay: 450 + (i > 1 ? 280 : 0), easing: IO });
+    });
+    an($('.crest__key'), [{ opacity: 0, transform: 'rotate(45deg) scale(.2)' }, { opacity: 1, transform: 'rotate(45deg) scale(1)' }], { duration: 800, delay: 2120, easing: EX });
+    $$('.hero .crest__word b').forEach(function (b, i) { an(b, up('.34em'), { duration: 1200, delay: 1000 + i * 75, easing: EX }); });
+    an($('.hero .crest__sub'), up('10px'), { duration: 1100, delay: 1750, easing: EX });
+    an($('.crest__rule'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 1000, delay: 1900, easing: IO });
+    an($('.crest__since'), up('8px'), { duration: 1100, delay: 2050, easing: EX });
+    an($('.hero__h1'), up('18px'), { duration: 1400, delay: 2150, easing: EX });
+    an($('.hero__today'), up('14px'), { duration: 1300, delay: 2300, easing: EX });
+    an($('.hero__cta'), up('14px'), { duration: 1300, delay: 2420, easing: EX });
+    an(hdr, [{ opacity: 0 }, { opacity: 1 }], { duration: 1200, delay: 2500, easing: 'linear' });
+    an($('.hero__cue'), [{ opacity: 0 }, { opacity: 1 }], { duration: 1000, delay: 3100, easing: 'linear' });
+    camPush(5200);
+    var done = function () { root.classList.remove('intro-on', 'intro-run'); root.classList.add('intro-done'); list.forEach(function (x) { x.cancel(); }); };
+    Promise.all(list.map(function (x) { return x.finished; })).then(done, done);
+  }
+  function start() {
+    var skip = !root.classList.contains('intro-on') || scrollY > 80 || !Element.prototype.animate;
+    if (skip) { root.classList.remove('intro-on'); root.classList.add('intro-done'); G.push = 0.34; kick(); return; }
+    root.classList.add('intro-run');
+    runIntro();
+  }
 
-  function leMeasure() {
-    if (!leOn) return;
-    var sr = stage.getBoundingClientRect(), r = slot.getBoundingClientRect();
-    LE.W = sr.width; LE.H = sr.height;
-    LE.range = Math.max(1, le.offsetHeight - LE.H);
-    LE.s0 = { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height };
-    // a ház képe: a kapu és a tábla (a forráskép 18,5–68,5%-a) pont a boltíves ablakba esik
-    var Wc = Math.max(LE.W, LE.H * 1.5), Hc = Wc / 1.5;
-    haz.style.width = px(Wc); haz.style.height = px(Hc); haz.style.right = 'auto'; haz.style.bottom = 'auto';
-    LE.Wc = Wc; LE.Hc = Hc;
-    LE.cur = '';
-    leRender(LE.p, true);
+  /* ---------- Képek: gépen vízszintes galéria, a szakasz megáll, a képek oldalra haladnak ---------- */
+  var kepek = $('.kepek'), hz = rich && kepek && innerWidth >= 1100;
+  var KH = { top: 0, range: 1, q: 0, cur: '' }, kTitle = kepek && $('h2', kepek), kColl = kepek && $('.coll', kepek), kFig = kepek ? $$('.coll figure', kepek) : [];
+  if (hz) {
+    kepek.classList.add('is-h'); kepek.classList.remove('flow');
+    kFig.forEach(function (f) { f.classList.remove('rv'); });
   }
-  function frameMeasure() {
-    var r = slot.getBoundingClientRect();
-    // a keret íve pixelben: egyenletes lépték kell, különben a szaggatás (kirajzolás) rossz helyen áll meg
-    var fw = r.width + 28, fh = r.height + 14, fr = fw / 2, fp = $$('path', frame);
-    frame.setAttribute('viewBox', '0 0 ' + fw.toFixed(1) + ' ' + fh.toFixed(1));
-    fp[0].setAttribute('d', 'M0 ' + fh.toFixed(1) + 'V' + fr.toFixed(1) + 'A' + fr.toFixed(1) + ' ' + fr.toFixed(1) + ' 0 0 1 ' + fr.toFixed(1) + ' 0');
-    fp[1].setAttribute('d', 'M' + fw.toFixed(1) + ' ' + fh.toFixed(1) + 'V' + fr.toFixed(1) + 'A' + fr.toFixed(1) + ' ' + fr.toFixed(1) + ' 0 0 0 ' + fr.toFixed(1) + ' 0');
+  function hzMeasure() {
+    if (!hz) return;
+    kepek.style.height = '';
+    var wrap = $('.wrap', kepek), dist = Math.max(0, kTitle.offsetWidth + kColl.offsetWidth - vw);
+    KH.range = Math.max(1, dist * 1.15); KH.dist = dist;
+    kepek.style.height = px(vh + KH.range);
+    KH.top = absTop(kepek); KH.cur = '';
+    KH.fx = kFig.map(function (f) { return f.offsetLeft; });
+    KH.fw = kFig.map(function (f) { return f.offsetWidth; });
   }
-  function archPath(x, y, w, h) {
-    var r = w / 2;
-    return 'path("M' + x.toFixed(1) + ' ' + (y + h).toFixed(1) + 'V' + (y + r).toFixed(1) + 'A' + r.toFixed(1) + ' ' + r.toFixed(1) + ' 0 0 1 ' + (x + w).toFixed(1) + ' ' + (y + r).toFixed(1) + 'V' + (y + h).toFixed(1) + 'Z")';
-  }
-  function leRender(p, force) {
-    if (!leOn || !LE.s0) return;
-    var k = p.toFixed(4);
-    if (k === LE.cur && !force) return;
-    LE.cur = k;
-    var W = LE.W, H = LE.H, s0 = LE.s0;
-    var A = eio(seg(p, 0, .3)), T = seg(p, 0, .15), B = seg(p, .3, .5), C = seg(p, .5, .7), E = seg(p, .7, .88);
-    // 1. a boltíves ablak kinyílik: a végén nagyobb a képernyőnél, a kerek teteje a sarkokon túl jár
-    var R1 = W * .66, w1 = R1 * 2, x1 = (W - w1) / 2, y1 = -R1 + W * .28, h1 = H - y1 + 2;
-    var cx0 = lerp(s0.x, x1, A), cy0 = lerp(s0.y, y1, A), cw = lerp(s0.w, w1, A), ch = lerp(s0.h, h1, A);
-    win.style.clipPath = A < 1 ? archPath(cx0, cy0, cw, ch) : 'none';
-    // a ház képe: az ablakba illesztett kivágásból (a kapu és a tábla) a kapura közelít, majd át a kapun;
-    // közben mindig kitölti az ablak látható részét
-    var Wc = LE.Wc, Hc = LE.Hc;
-    var sA = Math.max(s0.w / (.5 * Wc), s0.h / Hc), txA = s0.x + s0.w / 2 - .435 * Wc * sA, tyA = s0.y + s0.h / 2 - .5 * Hc * sA;
-    var sB = 1.1, txB = clamp(W * .5 - .35 * Wc * sB, W - Wc * sB, 0), tyB = clamp(H * .56 - .62 * Hc * sB, H - Hc * sB, 0);
-    var vx = Math.max(0, cx0), vy = Math.max(0, cy0), vr = Math.min(W, cx0 + cw), vb = Math.min(H, cy0 + ch);
-    var s = Math.max(lerp(sA, sB, A), (vr - vx) / Wc, (vb - vy) / Hc);
-    var tx = clamp(lerp(txA, txB, A), vr - Wc * s, vx), ty = clamp(lerp(tyA, tyB, A), vb - Hc * s, vy);
-    var z = 1 + .32 * eio(B), cx = W * .5, cy = H * .56;
-    tx = cx - (cx - tx) * z; ty = cy - (cy - ty) * z; s *= z;
-    haz.style.transform = 'translate3d(' + px(tx) + ',' + px(ty) + ',0) scale(' + s.toFixed(4) + ')';
-    // 2–4. a bejárat, a lépcső és a pince: a régi kép tovább nő (átmegyünk rajta), az új a szakasz közepén úszik át rá
-    var b2 = eio(seg(B, .2, .8)), c2 = eio(seg(C, .2, .8)), e2 = eio(seg(E, .2, .8));
-    L[0].style.opacity = String(1 - b2);
-    L[1].style.opacity = (b2 * (1 - c2)).toFixed(3);
-    L[1].style.transform = 'scale(' + (1.16 - .16 * eo3(B) + .3 * eio(C)).toFixed(4) + ')';
-    L[2].style.opacity = (c2 * (1 - e2)).toFixed(3);
-    L[2].style.transform = 'translate3d(0,' + px(-H * .05 * (1 - eo3(C))) + ',0) scale(' + (1.14 - .14 * eo3(C) + .28 * eio(E)).toFixed(4) + ')';
-    L[3].style.opacity = e2.toFixed(3);
-    L[3].style.transform = 'scale(' + (1.12 - .12 * eo3(E)).toFixed(4) + ')';
-    // a krém lap szövege kiúszik, a keret elhalványul
-    txt.style.opacity = (1 - T).toFixed(3);
-    txt.style.transform = 'translate3d(' + px(-44 * eo3(T)) + ',0,0)';
-    var f = (1 - seg(p, 0, .05)).toFixed(3);
-    frame.style.opacity = f; key.style.opacity = f; cue.style.opacity = f;
-    ltop.style.opacity = seg(p, .12, .3).toFixed(3);
-    // feliratok a lépésekhez
-    var cv = [seg(p, .2, .27) * (1 - seg(p, .44, .5)), seg(p, .44, .51) * (1 - seg(p, .64, .7)), seg(p, .64, .71) * (1 - seg(p, .82, .87))];
-    caps.forEach(function (c, i) { c.style.opacity = cv[i].toFixed(3); c.style.transform = 'translate3d(0,' + px(10 * (1 - eo3(Math.min(1, cv[i] * 1.6)))) + ',0)'; });
-    // lent: a kőív két oldalról rajzolódik, a felirat betűnként jön
-    var K = seg(p, .82, 1);
-    crest.style.opacity = seg(p, .82, .85).toFixed(3);
-    cArch.forEach(function (a, i) { a.style.strokeDashoffset = (1 - eio(seg(p, .82 + (i > 1 ? .02 : 0), .95))).toFixed(4); });
-    cKey.style.opacity = seg(p, .94, .97).toFixed(3);
-    cWord.forEach(function (b, i) { var t = eo3(seg(p, .86 + i * .007, .94 + i * .007)); b.style.opacity = t.toFixed(3); b.style.transform = 'translate3d(0,' + (.34 * (1 - t)).toFixed(3) + 'em,0)'; });
-    var t2 = eo3(seg(p, .92, .99));
-    cSub.style.opacity = t2.toFixed(3); cRule.style.transform = 'scaleX(' + t2.toFixed(3) + ')'; cSince.style.opacity = eo3(seg(p, .95, 1)).toFixed(3);
-    G.scroll = .34 * eo3(seg(p, .78, 1));
-    var glWas = G.vis; G.vis = p > .66 && LE.inView; if (G.vis && (!glWas || G.ok)) kick();
-    chrome();
-  }
-  function chrome() {
-    var y = scrollY, past = !leOn ? y > LE.H * .8 : y > LE.range + vh * .6;
-    hdr.classList.toggle('is-solid', past || !mnav.hidden);
-    hdr.classList.toggle('hdr--ink', !past && mnav.hidden && (!leOn ? true : LE.p < .14));
-    mcall.classList.toggle('show', leOn ? LE.p > .3 : y > vh * .6);
-    le.classList.toggle('le-past', y > LE.range + 40);
-  }
-  // érintőn: az első görgetésre egyszer lejátszódik (nem követi az ujjat); a lap tetejére visszatérve visszaáll
-  function filmTo(to, dur) {
-    LE.film = { t0: performance.now(), from: LE.p, to: to, dur: dur * Math.abs(to - LE.p) };
-    loop();
+  function hzRender(q) {
+    var key = q.toFixed(4); if (key === KH.cur) return; KH.cur = key;
+    var x = -KH.dist * q, tf = 'translate3d(' + px(x) + ',0,0)';
+    kTitle.style.transform = tf; kColl.style.transform = tf;
+    kFig.forEach(function (f, i) {
+      var c = KH.fx[i] + x + KH.fw[i] / 2 - vw / 2;
+      if (c < vw * .42) f.classList.add('in');
+      var im = $('img', f); im.style.transform = 'translate3d(' + px(-c * .06) + ',0,0)';
+    });
   }
 
   /* ---------- Szakaszok billenése: görgetésre befelé dőlnek, kifelé visszadőlnek (egérrel) ---------- */
@@ -468,7 +555,7 @@
     });
   }
 
-  /* ---------- Folyosó és tányérok mérése ---------- */
+  /* ---------- Folyosó ---------- */
   var CO = { top: 0, range: 1, q: 0, cur: '' }, rw = 0, rh = 0;
   function corMeasure() {
     if (!corridor) return;
@@ -492,34 +579,55 @@
     });
     thead.style.opacity = (1 - seg(q, .12, .2)).toFixed(3);
   }
+
+  /* ---------- Tányérok, borlista-szalag, ételkép az egér mellett, kurzor ---------- */
   var plates = $$('.plate img'), platesBox = $('.plates'), PF = [-0.07, 0.05, -0.04, 0.08], PL = [];
   function plMeasure() { PL = plates.map(function (im) { return { top: absTop(im), h: im.offsetHeight }; }); }
+  var marq = $('.marq__t'), MQ = { a: null, rate: 1, target: 1, on: false };
+  if (marq && !reduced && marq.animate) {
+    MQ.a = marq.animate([{ transform: 'translate3d(0,0,0)' }, { transform: 'translate3d(-50%,0,0)' }], { duration: 46000, iterations: Infinity });
+    MQ.a.pause();
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { MQ.on = es[0].isIntersecting; if (MQ.on) MQ.a.play(); else MQ.a.pause(); }).observe($('.marq'));
+  }
+  var dish = $('.dish'), dishImg = dish && $('img', dish), DS = { x: 0, y: 0, tx: 0, ty: 0, r: 0, on: false };
+  var cur = $('.cur'), CU = { x: -100, y: -100, tx: -100, ty: -100, on: false };
+  var useCursor = rich && cur;
+  if (useCursor) root.classList.add('cur-on');
+  var mags = rich ? $$('.btn').map(function (b) { return { el: b, x: 0, y: 0, tx: 0, ty: 0 }; }) : [];
 
   /* ---------- Egy közös képkocka-ciklus: csak akkor fut, ha valami mozog ---------- */
-  var raf = 0, last = 0, mouse = { x: 0, y: 0, on: false }, tilt = plates.map(function () { return { x: 0, y: 0, tx: 0, ty: 0 }; });
+  var raf = 0, last = 0, lastY = scrollY, vel = 0, tilt = plates.map(function () { return { x: 0, y: 0, tx: 0, ty: 0 }; });
   function loop() { if (!raf) raf = requestAnimationFrame(tick); }
+  function ease(o, kx, ky, k) {
+    var dx = o[kx[1]] - o[kx[0]], dy = o[ky[1]] - o[ky[0]];
+    if (Math.abs(dx) > .05 || Math.abs(dy) > .05) { o[kx[0]] += dx * k; o[ky[0]] += dy * k; return true; }
+    o[kx[0]] = o[kx[1]]; o[ky[0]] = o[ky[1]]; return false;
+  }
   function tick(t) {
     raf = 0;
     var dt = last ? Math.min(64, t - last) : 16; last = t;
     var k = 1 - Math.exp(-dt / 110), moving = false, y = scrollY;
-    // lejárat
-    if (leOn) {
-      LE.inView = y < le.offsetHeight;
-      if (LE.film) {
-        var f = LE.film, u = f.dur ? clamp((t - f.t0) / f.dur, 0, 1) : 1;
-        LE.p = lerp(f.from, f.to, u);
-        if (u < 1) moving = true; else LE.film = null;
-      } else if (!touch) {
-        var tp = clamp(y / LE.range, 0, 1), dp = tp - LE.p;
-        if (Math.abs(dp) > .0004) { LE.p += dp * k; moving = true; } else LE.p = tp;
-      }
-      if (LE.inView || LE.film) leRender(LE.p);
+    var v = (y - lastY) / dt; lastY = y;
+    vel += (v - vel) * (1 - Math.exp(-dt / 160));
+    if (Math.abs(vel) > .002) moving = true; else vel = 0;
+    // nyitókép: a felirat lassabban megy fel és elhalványul, a pince tovább nyomul (egérrel)
+    if (canHover && !reduced && y < hero.offsetHeight * 1.05) {
+      var hk = clamp(y / hero.offsetHeight, 0, 1);
+      heroIn.style.transform = 'translate3d(0,' + px(y * .32) + ',0)';
+      heroIn.style.opacity = String(clamp(1 - hk * 1.5, 0, 1));
+      if (Math.abs(G.scroll - hk * .7) > .0005) { G.scroll = hk * .7; kick(); }
     }
     // folyosó
     if (corridor) {
       var tq = clamp((y - CO.top) / CO.range, 0, 1), dq = tq - CO.q;
       if (Math.abs(dq) > .0004) { CO.q += dq * k; moving = true; } else CO.q = tq;
       if (y + vh > CO.top - 200 && y < CO.top + CO.range + vh + 200) corRender(CO.q);
+    }
+    // vízszintes galéria
+    if (hz) {
+      var th = clamp((y - KH.top) / KH.range, 0, 1), dh = th - KH.q;
+      if (Math.abs(dh) > .0003) { KH.q += dh * k; moving = true; } else KH.q = th;
+      if (y + vh > KH.top - 100 && y < KH.top + KH.range + vh) hzRender(KH.q);
     }
     // billenő szakaszok
     if (rich) flows.forEach(function (o) {
@@ -534,22 +642,36 @@
     if (canHover && !reduced && PL.length && y + vh > PL[0].top - 300 && y < PL[0].top + 900) {
       plates.forEach(function (im, i) {
         var c = PL[i].top + PL[i].h / 2 - (y + vh / 2), tl = tilt[i];
-        var dx = tl.tx - tl.x, dy = tl.ty - tl.y;
-        if (Math.abs(dx) > .01 || Math.abs(dy) > .01) { tl.x += dx * k; tl.y += dy * k; moving = true; } else { tl.x = tl.tx; tl.y = tl.ty; }
+        if (ease(tl, ['x', 'tx'], ['y', 'ty'], k)) moving = true;
         im.style.transform = 'translate3d(0,' + px(c * PF[i]) + ',0) perspective(700px) rotateX(' + tl.y.toFixed(2) + 'deg) rotateY(' + tl.x.toFixed(2) + 'deg)';
+      });
+    }
+    // borlista-szalag: görgetéskor gyorsul, az iránya a görgetéssel fordul
+    if (MQ.a && MQ.on && canHover) {
+      MQ.target = clamp(1 + vel * 4, -6, 7);
+      if (Math.abs(MQ.target - MQ.rate) > .02) { MQ.rate += (MQ.target - MQ.rate) * k; MQ.a.playbackRate = MQ.rate; moving = true; }
+    }
+    // ételkép az egér mellett
+    if (dish && (DS.on || dish.classList.contains('on'))) {
+      var ox = DS.x;
+      if (ease(DS, ['x', 'tx'], ['y', 'ty'], 1 - Math.exp(-dt / 90))) moving = true;
+      DS.r += (clamp((DS.x - ox) * .5, -12, 12) - DS.r) * .2;
+      if (Math.abs(DS.r) > .05) moving = true;
+      dish.style.transform = 'translate3d(' + px(DS.x) + ',' + px(DS.y) + ',0) rotate(' + DS.r.toFixed(2) + 'deg)';
+    }
+    // kurzor és mágneses gombok
+    if (useCursor) {
+      if (ease(CU, ['x', 'tx'], ['y', 'ty'], 1 - Math.exp(-dt / 55))) moving = true;
+      cur.style.transform = 'translate3d(' + px(CU.x) + ',' + px(CU.y) + ',0)';
+      mags.forEach(function (m) {
+        if (ease(m, ['x', 'tx'], ['y', 'ty'], k)) moving = true;
+        m.el.style.transform = m.x || m.y ? 'translate3d(' + px(m.x) + ',' + px(m.y) + ',0)' : '';
       });
     }
     if (moving) loop(); else last = 0;
   }
-  window.addEventListener('scroll', function () {
-    if (leOn && touch) {
-      var y = scrollY;
-      if (y > 6 && LE.p < 1 && (!LE.film || LE.film.to !== 1)) filmTo(1, y > LE.range ? 500 : 3600);
-      else if (LE.film && LE.film.to === 1 && y > LE.range && LE.film.dur > 600) filmTo(1, 500);
-      else if (y < 2 && LE.p > 0 && (!LE.film || LE.film.to !== 0)) filmTo(0, 1400);
-    }
-    chrome(); loop();
-  }, { passive: true });
+  window.addEventListener('scroll', function () { chrome(); loop(); }, { passive: true });
+
   if (canHover && !reduced) {
     platesBox.addEventListener('pointermove', function (e) {
       plates.forEach(function (im, i) {
@@ -569,153 +691,59 @@
       });
       fr.addEventListener('pointerleave', function () { ph.style.transform = ''; });
     });
-  }
-
-  /* ---------- Elérhetőség: a krém lap boltívként nyílik fel alulról, egyszer ---------- */
-  var info = $('.info'), paper = $('.info__paper');
-  function paperUp(now) {
-    if (now || reduced) { info.classList.add('up'); return; }
-    var t0 = performance.now(), W = info.offsetWidth, H = info.offsetHeight;
-    (function step(t) {
-      var u = eio(clamp((t - t0) / 1500, 0, 1)), w = W * (.16 + 1.1 * u), r = w / 2;
-      var h = (H + r) * u, x = (W - w) / 2, y = H - h;
-      paper.style.clipPath = archPath(x, y, w, h + 2);
-      if (u < 1) requestAnimationFrame(step); else { paper.style.clipPath = ''; info.classList.add('up'); }
-    })(t0);
-  }
-  if (info && 'IntersectionObserver' in window) {
-    if (info.getBoundingClientRect().top < vh * .8) paperUp(true);
-    else {
-      var pio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { pio.disconnect(); paperUp(false); } }, { rootMargin: '0px 0px -13% 0px' });
-      pio.observe(info);
-    }
-  } else if (info) info.classList.add('up');
-
-  /* ---------- Nyitókép a pincében: WebGL, mélységtérkép szerinti mozgás ---------- */
-  var VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
-  var FS = [
-    'precision highp float;varying vec2 v;',
-    'uniform sampler2D uI,uD;uniform vec2 uRes,uM;uniform float uAR,uPush,uOver;',
-    'const vec2 POS=vec2(.44,.5);const vec2 VP=vec2(.47,.44);',
-    'vec2 img(vec2 p){float sa=uRes.x/uRes.y;vec2 s=sa>uAR?vec2(1.,uAR/sa):vec2(sa/uAR,1.);',
-    ' vec2 o=(1.-s)*POS;vec2 c=o+.5*s;return c+(o+p*s-c)/uOver;}',
-    'void main(){vec2 p=v;',
-    ' for(int i=0;i<3;i++){float d=texture2D(uD,img(p)).r;float k=uPush*(.025+.13*d);',
-    '  p=VP+(v-VP)/(1.+k)+uM*(d-.42)*.024;}',
-    ' gl_FragColor=vec4(texture2D(uI,img(p)).rgb,1.);}'
-  ].join('\n');
-  var G = { ok: false, push: 0, m: [0, 0], mT: [0, 0], scroll: 0, raf: 0, vis: false, drawn: '' };
-  var heroImg = $('.hero__img'), l4 = $('.le__l4');
-  function glInit() {
-    var cv = $('.hero__gl'), im = heroImg;
-    var gl = cv.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false, powerPreference: 'high-performance' });
-    if (!gl) return;
-    function sh(t, s) { var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return gl.getShaderParameter(o, gl.COMPILE_STATUS) ? o : null; }
-    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS); if (!vs || !fs) return;
-    var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
-    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) return;
-    gl.useProgram(pr);
-    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    var al = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(al); gl.vertexAttribPointer(al, 2, gl.FLOAT, false, 0, 0);
-    var U = {}; ['uI', 'uD', 'uRes', 'uM', 'uAR', 'uPush', 'uOver'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
-    function tex(unit, src) {
-      var t = gl.createTexture(); gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
-    }
-    im.loading = 'eager';
-    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=4';
-    Promise.all([im.decode ? im.decode().catch(function () {}) : null, dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; })]).then(function () {
-      if (!im.naturalWidth || !dep.naturalWidth) return;
-      tex(0, im); tex(1, dep);
-      gl.uniform1i(U.uI, 0); gl.uniform1i(U.uD, 1);
-      gl.uniform1f(U.uAR, im.naturalWidth / im.naturalHeight); gl.uniform1f(U.uOver, 1.06);
-      G.gl = gl; G.cv = cv; G.U = U; G.ok = true;
-      size(); draw(); l4.classList.add('gl-on'); kick();
-    }).catch(function () {});
-    cv.addEventListener('webglcontextlost', function (e) { e.preventDefault(); G.ok = false; l4.classList.remove('gl-on'); });
-  }
-  function size() {
-    if (!G.ok) return;
-    var w = G.cv.clientWidth, h = G.cv.clientHeight, dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    G.cv.width = Math.round(w * dpr); G.cv.height = Math.round(h * dpr);
-    G.gl.viewport(0, 0, G.cv.width, G.cv.height); G.gl.uniform2f(G.U.uRes, w, h); G.drawn = '';
-  }
-  function draw() {
-    var gl = G.gl, U = G.U, key = (G.push + G.scroll).toFixed(4) + G.m[0].toFixed(4) + G.m[1].toFixed(4);
-    if (key === G.drawn) return;
-    G.drawn = key;
-    gl.uniform1f(U.uPush, G.push + G.scroll); gl.uniform2f(U.uM, G.m[0], G.m[1]);
-    gl.drawArrays(gl.TRIANGLES, 0, 3);
-  }
-  // csak akkor rajzol, ha a pince látszik és valami mozog; utána leáll
-  function glFrame() {
-    G.raf = 0;
-    if (!G.ok || !G.vis) return;
-    var moving = false;
-    for (var i = 0; i < 2; i++) {
-      var dm = G.mT[i] - G.m[i];
-      if (Math.abs(dm) > .0005) { G.m[i] += dm * .06; moving = true; } else G.m[i] = G.mT[i];
-    }
-    draw();
-    if (moving) kick();
-  }
-  function kick() { if (!G.raf && G.ok) G.raf = requestAnimationFrame(glFrame); }
-  if (canHover) {
-    stage.addEventListener('pointermove', function (e) {
-      G.mT[0] = (e.clientX / innerWidth - .5) * 2; G.mT[1] = (e.clientY / innerHeight - .5) * 2; kick();
+    // étlap: az ételek nevére állva a tányér képe az egér mellett úszik
+    if (dish) $$('[data-dish]').forEach(function (li) {
+      li.addEventListener('pointerenter', function (e) {
+        dishImg.src = 'img/etel-' + li.getAttribute('data-dish') + '.webp?v=5';
+        if (!DS.on) { DS.x = DS.tx = e.clientX + 70; DS.y = DS.ty = e.clientY - 240; }
+        DS.on = true; dish.classList.add('on'); loop();
+      });
+      li.addEventListener('pointerleave', function () { DS.on = false; dish.classList.remove('on'); });
     });
-    stage.addEventListener('pointerleave', function () { G.mT[0] = G.mT[1] = 0; kick(); });
+    D.addEventListener('pointermove', function (e) {
+      if (DS.on) { DS.tx = e.clientX + 70; DS.ty = e.clientY - 240; }
+      if (useCursor) {
+        CU.tx = e.clientX; CU.ty = e.clientY;
+        if (!CU.on) { CU.on = true; CU.x = CU.tx; CU.y = CU.ty; cur.classList.add('on'); }
+        mags.forEach(function (m) {
+          var r = m.el.getBoundingClientRect(), cx = r.left + r.width / 2 - m.x, cy = r.top + r.height / 2 - m.y;
+          var dx = e.clientX - cx, dy = e.clientY - cy, near = Math.abs(dx) < r.width / 2 + 40 && Math.abs(dy) < r.height / 2 + 40;
+          m.tx = near ? dx * .28 : 0; m.ty = near ? dy * .38 : 0;
+        });
+      }
+      loop();
+    }, { passive: true });
+    if (useCursor) {
+      D.addEventListener('pointerover', function (e) {
+        var t = e.target.closest && e.target.closest('a, button, [data-dish], .fr, .coll figure, .room');
+        cur.classList.toggle('big', !!t);
+      });
+      D.documentElement.addEventListener('pointerleave', function () { cur.classList.remove('on'); CU.on = false; });
+    }
   }
 
-  /* ---------- Méretek: csak szélességváltásra vagy nagy magasságváltásra mérünk újra ---------- */
-  function measureAll() { vw = innerWidth; vh = innerHeight; frameMeasure(); leMeasure(); corMeasure(); flowMeasure(); plMeasure(); loop(); }
+  /* ---------- Mérés; átméretezéskor csak szélességváltásra vagy nagy magasságváltásra ---------- */
+  function measureAll() { vw = innerWidth; vh = innerHeight; hzMeasure(); corMeasure(); flowMeasure(); plMeasure(); CO.cur = ''; flows.forEach(function (o) { o.cur = '_'; }); loop(); }
   var mw = innerWidth, mh = innerHeight;
   window.addEventListener('resize', function () {
-    if (innerWidth !== mw || Math.abs(innerHeight - mh) > 160) { mw = innerWidth; mh = innerHeight; measureAll(); size(); kick(); }
+    var w = innerWidth, h = innerHeight;
+    if (w === mw && Math.abs(h - mh) < 160) return;
+    var wc = w !== mw; mw = w; mh = h;
+    if (wc) splitAll();
+    measureAll();
   });
 
-  /* ---------- Nyitóanimáció (WAAPI): a keret két oldalról rajzolódik, a kép előjön, a cím felúszik ---------- */
-  var EX = 'cubic-bezier(.16,1,.3,1)', IOE = 'cubic-bezier(.65,0,.35,1)';
-  function runIntro() {
-    var list = [];
-    function an(el, kf, o) { if (!el) return; list.push(el.animate(kf, Object.assign({ fill: 'both' }, o))); }
-    var up = function (d) { return [{ opacity: 0, transform: 'translate3d(0,' + d + ',0)' }, { opacity: 1, transform: 'none' }]; };
-    $$('.le__frame path').forEach(function (p) { an(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1700, delay: 150, easing: IOE }); });
-    an(win, [{ opacity: 0 }, { opacity: 1 }], { duration: 1500, delay: 350, easing: 'cubic-bezier(.45,0,.2,1)' });
-    an(L[0], [{ transform: 'scale(1.07)' }, { transform: 'none' }], { duration: 2600, delay: 350, easing: EX });
-    an(key, [{ opacity: 0, transform: 'rotate(45deg) scale(.2)' }, { opacity: 1, transform: 'rotate(45deg) scale(1)' }], { duration: 700, delay: 1650, easing: EX });
-    an($('.le__h1'), up('26px'), { duration: 1400, delay: 550, easing: EX });
-    an($('.le__today'), up('16px'), { duration: 1300, delay: 750, easing: EX });
-    an($('.le__cta'), up('16px'), { duration: 1300, delay: 880, easing: EX });
-    an(hdr, [{ opacity: 0 }, { opacity: 1 }], { duration: 1100, delay: 1100, easing: 'linear' });
-    an(cue, [{ opacity: 0 }, { opacity: 1 }], { duration: 1000, delay: 1900, easing: 'linear' });
-    var done = function () { root.classList.remove('intro-on', 'intro-run'); root.classList.add('intro-done'); list.forEach(function (x) { x.cancel(); }); };
-    Promise.all(list.map(function (x) { return x.finished; })).then(done, done);
-  }
-  function start() {
-    var skip = !root.classList.contains('intro-on') || scrollY > 80 || !Element.prototype.animate || !leOn;
-    if (skip) { root.classList.remove('intro-on'); root.classList.add('intro-done'); return; }
-    root.classList.add('intro-run');
-    runIntro();
-  }
-
-  measureAll();
-  // középről újratöltve a lejárat már a végén áll
-  if (leOn && scrollY > LE.range * .5) { LE.p = 1; leRender(1, true); }
-  chrome();
-  // a betűk és a ház képe megvárása (legfeljebb 1,6 mp), hogy az animáció közben semmi ne cserélődjön
+  // a betű és a nyitókép megvárása (legfeljebb 1,6 mp), hogy az animáció közben semmi ne cserélődjön
+  var heroImg = $('.hero__img');
   Promise.race([
-    Promise.all([D.fonts ? Promise.all([D.fonts.load('400 60px Marcellus'), D.fonts.load('400 18px Karla')]) : null, haz.decode ? haz.decode().catch(function () {}) : null]),
+    Promise.all([D.fonts ? Promise.all([D.fonts.load('500 40px EBG'), D.fonts.load('italic 400 20px EBG')]) : null, heroImg.decode ? heroImg.decode().catch(function () {}) : null]),
     new Promise(function (r) { setTimeout(r, 1600); })
   ]).then(function () {
-    measureAll();
+    splitAll(); reveals(); measureAll(); chrome();
+    // a betűcsere utáni újratördelés az indulás előtt fusson le, ne az animáció első képkockáiban
     void D.body.offsetHeight;
     requestAnimationFrame(function () { requestAnimationFrame(start); });
   });
-  if (D.fonts && D.fonts.ready) D.fonts.ready.then(measureAll);
   window.addEventListener('load', measureAll);
-  if (!reduced && leOn) setTimeout(glInit, 400);
+  if (!reduced) glInit();
 })();

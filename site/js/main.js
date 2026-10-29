@@ -670,7 +670,11 @@
     }
     if (moving) loop(); else last = 0;
   }
-  window.addEventListener('scroll', function () { chrome(); loop(); }, { passive: true });
+  window.addEventListener('scroll', function () {
+    // görgetéskor az ételkép eltűnik (az egér helyben marad, a lista elmegy alóla)
+    if (DS.on) { DS.on = false; dish.classList.remove('on'); }
+    chrome(); loop();
+  }, { passive: true });
 
   if (canHover && !reduced) {
     platesBox.addEventListener('pointermove', function (e) {

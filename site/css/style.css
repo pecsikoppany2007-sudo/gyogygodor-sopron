@@ -453,3 +453,12 @@ cite { display: block; font-style: normal; font-size: 14px; color: var(--brass);
   .kepek.is-h .coll .c4 .ph { height: 64lvh; }
   .kepek.is-h .coll .ph img { width: 116%; max-width: none; height: 100%; object-fit: cover; margin-left: -8%; }
 }
+
+/* v5.2: a mozgó részek saját réteget kapnak, így görgetéskor nem festődik újra az egész szakasz */
+.flow-dim { will-change: opacity; }
+.hov .hero__in, .termek.is-3d .rcap, .termek.is-3d .head { will-change: transform, opacity; }
+.hov .plate img, .kepek.is-h .coll .ph img, .cur, .dish { will-change: transform; }
+/* a soronként előcsúszó cím csak függőlegesen vág, oldalt soha */
+.sl .ln { overflow: hidden; overflow: visible clip; }
+/* a „Társaságoknak” egy szó, a keskeny oszlopban kisebb */
+.tars h2 { font-size: clamp(44px, 4.8vw, 76px); }

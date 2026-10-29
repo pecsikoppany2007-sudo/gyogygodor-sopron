@@ -8,6 +8,7 @@ const base = process.argv[2] || 'http://localhost:8765/';
 
 const CONFS = [
   ['gép', { viewport: { width: 1440, height: 900 }, locale: 'hu-HU' }, 1],
+  ['Mac Retina', { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2, locale: 'hu-HU' }, 1],
   ['iPhone 13 (4x)', { ...devices['iPhone 13'], locale: 'hu-HU' }, 4],
   ['olcsó Android (6x)', { viewport: { width: 360, height: 640 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'hu-HU',
     userAgent: 'Mozilla/5.0 (Linux; Android 11; moto g(9) play) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36' }, 6],
@@ -23,10 +24,12 @@ function frameStats(events, t0, t1) {
     const s = fr.state || 'ismeretlen';
     st[s] = (st[s] || 0) + 1;
     if (s === 'STATE_DROPPED') when.push(Math.round((e.ts - t0) / 1000));
+    if (fr.has_missing_content) st.miss = (st.miss || 0) + 1;
   }
   const dropped = st.STATE_DROPPED || 0;
   const shown = (st.STATE_PRESENTED_ALL || 0) + (st.STATE_PRESENTED_PARTIAL || 0);
-  return { when, dropped, shown, partial: st.STATE_PRESENTED_PARTIAL || 0, pct: shown + dropped ? (100 * dropped / (shown + dropped)).toFixed(1) : '0.0' };
+  let rast = 0; for (const e of events) if (e.name === 'RasterTask' && e.ph === 'X' && e.ts >= t0 && e.ts <= t1) rast += e.dur || 0;
+  return { miss: st.miss || 0, rast: Math.round(rast / 1000), when, dropped, shown, partial: st.STATE_PRESENTED_PARTIAL || 0, pct: shown + dropped ? (100 * dropped / (shown + dropped)).toFixed(1) : '0.0' };
 }
 
 (async () => {
@@ -70,7 +73,7 @@ function frameStats(events, t0, t1) {
     cdp.on('Tracing.dataCollected', d => events.push(...d.value));
     const done = new Promise(r => cdp.once('Tracing.tracingComplete', r));
     await cdp.send('Tracing.start', { transferMode: 'ReportEvents',
-      traceConfig: { includedCategories: ['devtools.timeline', 'disabled-by-default-devtools.timeline.frame', 'benchmark', 'cc', 'viz', 'blink.user_timing'] } });
+      traceConfig: { includedCategories: ['devtools.timeline', 'disabled-by-default-devtools.timeline.frame', 'benchmark', 'cc', 'viz', 'disabled-by-default-cc.debug', 'blink.user_timing'] } });
 
     // 1) betöltés és nyitó animáció
     const tLoad0 = await p.evaluate(() => 0).catch(() => 0);
@@ -139,7 +142,7 @@ function frameStats(events, t0, t1) {
     if (fIntro.dropped) console.log(`    eldobott képkockák a nyitás kezdetétől (ms): ${fIntro.when.join(' ')}`);
     console.log(`    az animáció ${intro.ir} ms-mal az első kép után indult; onnantól eldobott ${fRun.dropped}/${fRun.dropped + fRun.shown} (${fRun.pct}%)${fRun.dropped ? ' itt: ' + fRun.when.join(' ') : ''}`);
     console.log(`    nyitás indult ${intro.io} ms-nál; hosszú rAF-szünetek (kezdet a nyitáshoz képest + hossz): ${intro.big || 'nincs'}`);
-    console.log(`  görgetés${scrolledTo >= 0 ? ' (' + scrolledTo + '/' + H + ' px)' : ''}: eldobott képkocka ${fScroll.dropped}/${fScroll.dropped + fScroll.shown} (${fScroll.pct}%), rAF >34 ms: ${scroll.slow}/${scroll.n}, leghosszabb ${scroll.max} ms, hosszú feladat ${scroll.lt} (max ${scroll.ltMax} ms)`);
+    console.log(`  görgetés${scrolledTo >= 0 ? ' (' + scrolledTo + '/' + H + ' px)' : ''}: eldobott képkocka ${fScroll.dropped}/${fScroll.dropped + fScroll.shown} (${fScroll.pct}%), hiányzó tartalom ${fScroll.miss}, raszter ${fScroll.rast} ms, rAF >34 ms: ${scroll.slow}/${scroll.n}, leghosszabb ${scroll.max} ms, hosszú feladat ${scroll.lt} (max ${scroll.ltMax} ms)`);
     console.log(`  fő szál képkockánként: script ${per('ScriptDuration')} ms, layout ${per('LayoutDuration')} ms, style ${per('RecalcStyleDuration')} ms; CLS a végén ${scroll.cls.toFixed(3)}`);
     if (errs.length) console.log('  hibák:', errs.join(' | '));
     await ctx.close();

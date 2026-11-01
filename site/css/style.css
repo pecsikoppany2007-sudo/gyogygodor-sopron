@@ -429,7 +429,7 @@ cite { display: block; font-style: normal; font-size: 14px; color: var(--brass);
 .cur-on, .cur-on a, .cur-on button { cursor: none; }
 
 /* filmszemcse az egész lapon (csak valódi grafikus chippel) */
-.is-grain body::after { content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; background: url(../img/szemcse.png?v=6); opacity: .06; }
+.is-grain body::after { content: ''; position: fixed; inset: 0; z-index: 80; pointer-events: none; background: url(../img/szemcse.png?v=7); opacity: .06; }
 
 /* lábléc: a lap felhúzódik róla */
 @media (min-height: 740px) and (min-width: 761px) {
@@ -462,3 +462,39 @@ cite { display: block; font-style: normal; font-size: 14px; color: var(--brass);
 .sl .ln { overflow: hidden; overflow: visible clip; }
 /* a „Társaságoknak” egy szó, a keskeny oszlopban kisebb */
 .tars h2 { font-size: clamp(44px, 4.8vw, 76px); }
+
+/* ---------- v6: ötletek a 2026-os díjnyertes oldalakból ---------- */
+/* évszámláló a nyitóanimáció alatt */
+.yrs { position: absolute; z-index: 2; left: var(--pad); bottom: clamp(28px, 5vh, 52px); margin: 0; display: none; color: var(--brass); font-style: italic; font-variant-numeric: oldstyle-nums; pointer-events: none; }
+.intro-run .yrs { display: block; }
+.yrs__n { display: block; font-weight: 400; font-size: clamp(40px, 4.4vw, 64px); line-height: 1; letter-spacing: .01em; }
+.yrs__bar { display: block; width: clamp(90px, 8vw, 130px); height: 1px; margin-top: 12px; background: var(--brass-b); overflow: hidden; }
+.yrs__bar i { display: block; height: 100%; background: var(--brass); transform-origin: 0 50%; transform: scaleX(0); }
+
+/* bal oldali szakaszlista és élő felirat a jobb szélen: csak egeres gépen */
+.idx, .live { display: none; }
+@media (hover: hover) and (pointer: fine) and (min-width: 1360px) {
+  .idx { position: fixed; z-index: 40; left: 26px; top: 50%; display: flex; flex-direction: column; gap: 15px; transform: translateY(-50%); opacity: 0; pointer-events: none; transition: opacity .6s; }
+  .idx.on { opacity: 1; pointer-events: auto; }
+  .idx a { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 15px; line-height: 1; letter-spacing: .08em; font-variant-caps: all-small-caps; }
+  .idx i { flex: none; width: 7px; height: 7px; border: 1px solid var(--brass-a); border-radius: 50%; transition: background .4s, border-color .4s, transform .4s var(--ex); }
+  .idx span { white-space: nowrap; opacity: 0; transform: translateX(-6px); transition: opacity .4s, transform .5s var(--ex), color .3s; }
+  .idx a.act i { background: var(--brass); border-color: var(--brass); transform: scale(1.3); }
+  .idx a.act span, .idx:hover span { opacity: 1; transform: none; }
+  .idx a.act span, .idx a:hover span { color: var(--cream); }
+  .intro-on .idx { opacity: 0; }
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 1100px) {
+  .live { position: fixed; z-index: 40; right: 20px; bottom: 30px; margin: 0; display: flex; gap: 14px; writing-mode: vertical-rl; transform: rotate(180deg); color: var(--muted); font-size: 15px; letter-spacing: .1em; font-variant-caps: all-small-caps; font-variant-numeric: lining-nums tabular-nums; pointer-events: none; transition: opacity 1s; }
+  .live b { font-weight: 400; color: var(--brass); }
+  .intro-on .live { opacity: 0; }
+}
+
+/* a legenda szavanként világosodik ki */
+.nev__q .w { opacity: .22; transition: opacity .6s; }
+.nev__q .w.on { opacity: 1; }
+
+/* az 1965-ös fotó rézvonalakból áll össze */
+.pince__old .ph canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.pince__old.rast img { opacity: 0; }
+.pince__old.rast-done img { opacity: 1; transition: opacity 1.2s; }

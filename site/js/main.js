@@ -405,7 +405,7 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
     }
-    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=6';
+    var dep = new Image(); dep.decoding = 'async'; dep.src = 'img/hero-melyseg.webp?v=7';
     Promise.all([im.decode ? im.decode().catch(function () {}) : null, dep.decode ? dep.decode() : new Promise(function (r) { dep.onload = r; })]).then(function () {
       if (!im.naturalWidth || !dep.naturalWidth) return;
       tex(0, im); tex(1, dep);
@@ -467,6 +467,18 @@
     function an(el, kf, o) { if (!el) return; var x = el.animate(kf, Object.assign({ fill: 'both' }, o)); list.push(x); }
     var up = function (d) { return [{ opacity: 0, transform: 'translate3d(0,' + d + ',0)' }, { opacity: 1, transform: 'none' }]; };
     an($('.hero__night'), [{ opacity: 1 }, { opacity: 0 }], { duration: 2300, delay: 80, easing: 'cubic-bezier(.45,0,.2,1)' });
+    // v6: évszámláló 1966-tól idáig, amíg a pince kivilágosodik
+    var yn = $('.yrs__n');
+    if (yn) {
+      an($('.yrs__bar i'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 2100, delay: 150, easing: IO });
+      an($('.yrs'), [{ opacity: 0 }, { opacity: 1, offset: .08 }, { opacity: 1, offset: .8 }, { opacity: 0 }], { duration: 2900, easing: 'linear' });
+      var y0 = performance.now(), y1 = new Date().getFullYear();
+      (function cnt() {
+        var p = clamp((performance.now() - y0 - 150) / 2100, 0, 1), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        yn.textContent = String(1966 + Math.round((y1 - 1966) * e));
+        if (p < 1) requestAnimationFrame(cnt);
+      })();
+    }
     $$('.crest__arch path').forEach(function (p, i) {
       an(p, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1800, delay: 450 + (i > 1 ? 280 : 0), easing: IO });
     });
@@ -698,7 +710,7 @@
     // étlap: az ételek nevére állva a tányér képe az egér mellett úszik
     if (dish) $$('[data-dish]').forEach(function (li) {
       li.addEventListener('pointerenter', function (e) {
-        dishImg.src = 'img/etel-' + li.getAttribute('data-dish') + '.webp?v=6';
+        dishImg.src = 'img/etel-' + li.getAttribute('data-dish') + '.webp?v=7';
         if (!DS.on) { DS.x = DS.tx = e.clientX + 70; DS.y = DS.ty = e.clientY - 240; }
         DS.on = true; dish.classList.add('on'); loop();
       });
@@ -750,4 +762,122 @@
   });
   window.addEventListener('load', measureAll);
   if (!reduced) glInit();
+
+  /* ---------- v6: ötletek a 2026-os díjnyertes oldalakból ---------- */
+
+  // Élő sarokfelirat (Sakazuki): budapesti idő másodpercre és a nyitva-állapot
+  var live = $('.live'), lClock = $('.js-clock'), lMsg = $('.js-live');
+  function bpNow() { var t = Date.now(), y = new Date(t).getUTCFullYear(); var dst = t >= lastSunday(y, 2) && t < lastSunday(y, 9); return new Date(t + (dst ? 2 : 1) * 3600000); }
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+  function liveTick() {
+    if (!live || live.offsetParent === null && getComputedStyle(live).display === 'none') return;
+    var b = bpNow(), d = b.getUTCDay(), h = b.getUTCHours() + b.getUTCMinutes() / 60, o = HOURS[d], u = UI[lang], m;
+    lClock.textContent = two(b.getUTCHours()) + ':' + two(b.getUTCMinutes()) + ':' + two(b.getUTCSeconds());
+    if (h >= o[0] && h < o[1]) m = u.open.replace('{t}', hh(o[1]));
+    else if (h < o[0]) m = u.today2.replace('{t}', hh(o[0]));
+    else m = u.tom.replace('{t}', hh(HOURS[(d + 1) % 7][0]));
+    m = m.replace(/\.$/, '');
+    if (lMsg.textContent !== m) lMsg.textContent = m;
+  }
+  if (live && canHover) { liveTick(); setInterval(liveTick, 1000); }
+
+  // Bal oldali szakaszlista (Hubtown): a pont mutatja, hol jársz
+  var idx = $('.idx'), idxA = idx ? $$('a', idx) : [];
+  if (idx && canHover && 'IntersectionObserver' in window) {
+    var idxIO = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        idxA.forEach(function (a) { a.classList.toggle('act', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    idxA.forEach(function (a) { var s = D.getElementById(a.getAttribute('href').slice(1)); if (s) idxIO.observe(s); });
+  }
+
+  // A legenda szavanként világosodik ki (Produx): gépen a görgetéssel, érintésnél időzítve
+  var q = $('.nev__q'), qW = [], qTop = 0, qH = 1, qN = -1, qTimed = false;
+  function qSplit() {
+    if (!q) return;
+    var t = q.textContent; q.textContent = '';
+    qW = t.split(/( +)/).map(function (w) {
+      if (/^ +$/.test(w) || !w) { q.appendChild(D.createTextNode(w)); return null; }
+      var s = D.createElement('span'); s.className = 'w'; s.textContent = w; q.appendChild(s); return s;
+    }).filter(Boolean);
+    qN = -1;
+    if (reduced || qTimed) qW.forEach(function (w) { w.classList.add('on'); });
+    qMeasure();
+  }
+  function qMeasure() { if (q) { qTop = absTop(q); qH = q.offsetHeight || 1; qN = -1; } }
+  function qScroll() {
+    if (!q || reduced) return;
+    var p = clamp((scrollY + vh * .82 - qTop) / (vh * .3 + qH), 0, 1), n = Math.round(p * qW.length);
+    if (n !== qN) { qN = n; qW.forEach(function (w, i) { w.classList.toggle('on', i < n); }); }
+  }
+  if (q) {
+    qSplit();
+    if (!rich && !reduced && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (es, ob) {
+        if (!es[0].isIntersecting) return; ob.disconnect(); qTimed = true;
+        qW.forEach(function (w, i) { setTimeout(function () { w.classList.add('on'); }, 250 + i * 70); });
+      }, { threshold: .5 }).observe(q);
+    }
+    $$('[data-lang]').forEach(function (b) { b.addEventListener('click', function () { qSplit(); qScroll(); }); });
+  }
+
+  // Görgetésfigyelés: a szakaszlista csak a nyitókép után és a vízszintes galéria alatt nem látszik
+  var sTick = false;
+  function onS() {
+    sTick = false;
+    if (rich) qScroll();
+    if (idx) {
+      var on = scrollY > vh * .6;
+      if (on && hz && kepek) { var r = kepek.getBoundingClientRect(); if (r.top < vh * .5 && r.bottom > vh * .5) on = false; }
+      idx.classList.toggle('on', on);
+    }
+  }
+  window.addEventListener('scroll', function () { if (!sTick) { sTick = true; requestAnimationFrame(onS); } }, { passive: true });
+  window.addEventListener('resize', function () { qMeasure(); onS(); });
+  window.addEventListener('load', function () { qMeasure(); onS(); });
+  onS();
+
+  // Az 1965-ös Kossow-ház fotója rézvonalakból áll össze, aztán előtűnik a kép (Son Daven)
+  var old = $('.pince__old'), oldImg = old && $('img', old), oldPh = old && $('.ph', old);
+  if (old && oldImg && oldPh && !reduced && 'IntersectionObserver' in window) {
+    var cv = D.createElement('canvas');
+    old.classList.add('rast'); oldPh.appendChild(cv);
+    var rDone = function () {
+      old.classList.add('rast-done');
+      cv.style.transition = 'opacity 1.2s'; cv.style.opacity = '0';
+      setTimeout(function () { if (cv.parentNode) cv.parentNode.removeChild(cv); old.classList.remove('rast'); }, 1500);
+    };
+    var rRun = function () {
+      var w = cv.clientWidth, h = cv.clientHeight, dpr = Math.min(devicePixelRatio || 1, 2);
+      if (!w || !h || !oldImg.naturalWidth) { rDone(); return; }
+      cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+      var x = cv.getContext('2d'), step = 4, rowH = 2, cols = Math.ceil(w / step), rows = Math.ceil(h / rowH);
+      var sc = D.createElement('canvas'); sc.width = cols; sc.height = rows;
+      var sx = sc.getContext('2d'), iw = oldImg.naturalWidth, ih = oldImg.naturalHeight, k = Math.max(w / iw, h / ih), cw = w / k, ch = h / k;
+      sx.drawImage(oldImg, (iw - cw) / 2, (ih - ch) / 2, cw, ch, 0, 0, cols, rows);
+      var px; try { px = sx.getImageData(0, 0, cols, rows).data; } catch (e) { rDone(); return; }
+      var Lm = new Float32Array(cols * rows);
+      for (var i = 0; i < Lm.length; i++) Lm[i] = clamp(((px[i * 4] * .3 + px[i * 4 + 1] * .59 + px[i * 4 + 2] * .11) / 255 - .06) / .86, 0, 1);
+      x.setTransform(dpr, 0, 0, dpr, 0, 0); x.fillStyle = '#c29e66';
+      var t0 = performance.now(), dur = 1500;
+      (function f() {
+        var p = (performance.now() - t0) / dur;
+        x.clearRect(0, 0, w, h); x.beginPath();
+        for (var c = 0; c < cols; c++) {
+          var cp = clamp(p * 1.5 - c / cols * .5, 0, 1); if (cp <= 0) continue;
+          var r0 = Math.floor(rows * (1 - easeOut(cp)));
+          for (var r = r0; r < rows; r++) { var bw = step * Lm[r * cols + c] * .9; if (bw > .35) x.rect(c * step + (step - bw) / 2, r * rowH, bw, rowH); }
+        }
+        x.fill();
+        if (p < 1.3) requestAnimationFrame(f); else rDone();
+      })();
+    };
+    new IntersectionObserver(function (es, ob) {
+      if (!es[0].isIntersecting) return; ob.disconnect();
+      if (oldImg.complete && oldImg.naturalWidth) rRun();
+      else { oldImg.addEventListener('load', rRun); oldImg.addEventListener('error', rDone); }
+    }, { threshold: .25 }).observe(old);
+  }
 })();
